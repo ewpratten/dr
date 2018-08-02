@@ -1,0 +1,1 @@
+import devRantSimple as dRS
