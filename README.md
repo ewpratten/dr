@@ -2,7 +2,7 @@
 An ed-like client for devRant written in python
 
 ## Installation
-Just grab the build for your system on the (releases)[] page then run:
+Just grab the build for your system on the [releases](https://github.com/Ewpratten/dr/releases) page then run:
 ```
 chmod +755 dr
 mv dr /use/local/bin/
