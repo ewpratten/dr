@@ -4,6 +4,7 @@ import devRantSimple as dRS
 from enum import Enum
 import commands as c
 import globals as glbl
+import os
 
 # Vars
 
@@ -13,7 +14,7 @@ running = True			# Used to controlcommand loop
 glbl.CurrentSection = dRS.RantType.algo
 glbl.ViewId = 1
 
-CommandList = ["q", "r", "v", "p", "t", "s", "l"]
+CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-"]
 
 # q - quit
 # r - new rant
@@ -25,6 +26,10 @@ CommandList = ["q", "r", "v", "p", "t", "s", "l"]
 # v+ - view next
 # v- - view prev
 # l - login
+# c - comment on current rant
+# c! - comment post
+# + - upvote
+# - - downvote
 
 #only check first char, others are checked in execute
 
@@ -36,9 +41,18 @@ def prompt():
 	return input(">")	# show a simple prompt
 
 def isValidCommand(command):
-	return command[0] in CommandList	#is the first char a valid command?
+	if len(command) > 0:
+		return command[0] in CommandList	#is the first char a valid command?
+	else:
+		return False
 
 def execute(command, vid):
+	if command == "pc":
+		resp = input("Are you sure? (Y/N):")
+		if resp == "y" or resp == "Y":
+			c.postComment(vid, glbl.CurrentSection)
+	if command == "c":
+		c.newComment(vid, glbl.CurrentSection)
 	if command[0] == "l":
 		c.login()
 	if command[0] == "r":
@@ -70,7 +84,20 @@ def execute(command, vid):
 ## STARTUP ##
 # check if login config exsists
 # if not, create
+from pathlib import Path
+home = str(Path.home())
 
+if os.path.exists(home +'/.dr.conf'):
+	with open(home + '/.dr.conf') as f:
+		content = f.readlines()
+		content = [x.strip() for x in content]
+		
+		creds = dRS.login(content[0], content[1])
+		if creds != dRS.InvalidResponse:
+			print("Welcome @" + content[0] + "!")
+			glbl.creds = creds
+			glbl.isloggedin = True
+	
 
 ## MAIN LOOP ##
 while running:

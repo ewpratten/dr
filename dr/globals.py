@@ -6,3 +6,4 @@ isloggedin = False
 
 rant_text = ""
 rant_tags = ""
+rant_comment = ""

@@ -7,7 +7,7 @@ import globals as glbl
 def printrant(rant):
 	# if "joke/meme" not in rant["tags"]:
 	# print(rant)
-	print(rant["username"])
+	print("@" + rant["username"])
 	print("---")
 	print(rant["text"])
 	print("---")
@@ -36,15 +36,16 @@ def login():
 	if creds != dRS.InvalidResponse:
 		print("Logged In")
 		glbl.creds = creds
-		glbl.isloggedein = True
+		glbl.isloggedin = True
 
 def post():
-	uid = glbl.creds["user_id"]
-	token = glbl.creds["token_id"]
-	key = glbl.creds["token_key"]
-	if glbl.isloggedein:
+	if glbl.isloggedin:
+		uid = glbl.creds["user_id"]
+		token = glbl.creds["token_id"]
+		key = glbl.creds["token_key"]
 		response = dRS.postRant(glbl.rant_text, glbl.rant_tags, uid, token, key)
 		if response["success"]:
+			glbl.rant_text = ""
 			print("Done")
 	else:
 		print("Not Logged In")
@@ -62,3 +63,32 @@ def newRant():
 def newTags():
 	print("Add Tags (comma seperated)")
 	glbl.rant_tags = input("|")
+
+	
+def newComment(viewid, sort):
+	username = dRS.getRant(sort, viewid)
+	username = username["username"]
+	print("Comment On @" + username + "'s Rant:")
+	rtype = True
+	while rtype:
+		inp = input("|")
+		if inp == ".":
+			rtype = False
+		else:
+			glbl.rant_comment += inp + "\n"
+
+def postComment(viewid, sort):
+	print("Commenting not allowed")
+	# if glbl.isloggedin:
+	# 	uid = glbl.creds["user_id"]
+	# 	token = glbl.creds["token_id"]
+	# 	key = glbl.creds["token_key"]
+	# 	rid = dRS.getRant(sort, viewid)
+	# 	rid = rid["id"]
+	# 	response = dRS.comment(rid, glbl.rant_comment, uid, token, key)
+	# 	print(response)
+	# 	if response["success"]:
+	# 		glbl.rant_comment = ""
+	# 		print("Done")
+	# else:
+	# 	print("Not Logged In")
