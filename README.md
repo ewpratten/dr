@@ -33,4 +33,13 @@ Make sure you have logged in before continuing with this step.
 To post the rant you have just created, use the `p` command. You will be asked for verification. That's it! You have posted your first rant using the dr client!
 
 ## Viewing a rant
-TODO: ADD INFO.
+To view a rant, use the command `v`. To view the next rant, use the command `v+`. To view the previous rant, use the command `v-`.
+
+To change the rant feed you are reading from, use the `s` command followed by the code for the feed you want.
+
+Feed list
+ - t = top
+ - a = algo
+ - r = recent
+
+So. to view the top rants, use the command `st` and to view the algo, use `sa`
