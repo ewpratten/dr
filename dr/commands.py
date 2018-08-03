@@ -1,6 +1,7 @@
 import devRantSimple as dRS
 import getpass
 import globals as glbl
+import classes as classes
 
 # commands
 
@@ -92,3 +93,40 @@ def postComment(viewid, sort):
 	# 		print("Done")
 	# else:
 	# 	print("Not Logged In")
+
+def getNotifs():
+	print("Fetching Notifs...")
+	if glbl.isloggedin:
+		uid = glbl.creds["user_id"]
+		token = glbl.creds["token_id"]
+		key = glbl.creds["token_key"]
+		response = dRS.getNotifs(uid, token, key)
+		items = response["data"]["items"]
+		i = 0
+		while i < len(items):
+			if not bool(items[i]["read"]):
+				glbl.notifs.append(classes.Notif(items[i]))
+			i+=1
+
+def dispNotifs():
+	i = 0
+	while i < len(glbl.notifs):
+		notif = glbl.notifs[i]
+		if not notif.isItRead():
+			if notif.getType() == dRS.NotifType.sub:
+				print("------------")
+				print("@" + notif.getUsername() + ": Posted a new rant")
+				print("Rant Id:" + str(notif.getId()))
+			if notif.getType() == dRS.NotifType.mention:
+				print("------------")
+				print("@" + notif.getUsername() + ": Mentioned you in a comment")
+				print("(Unable to fetch preview")
+				print("Rant Id:" + str(notif.getId()))
+			if notif.getType() == dRS.NotifType.content:
+				print("------------")
+				print("@" + notif.getUsername() + ": Commented on your rant")
+				print("Rant Id:" + str(notif.getId()))
+			if notif.getType() == dRS.NotifType.vote:
+				print("------------")
+				print("@" + notif.getUsername() + ": Upvoted one of your rants")
+		i +=1

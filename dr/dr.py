@@ -14,7 +14,7 @@ running = True			# Used to controlcommand loop
 glbl.CurrentSection = dRS.RantType.algo
 glbl.ViewId = 1
 
-CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-"]
+CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-", "n"]
 
 # q - quit
 # r - new rant
@@ -27,9 +27,13 @@ CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-"]
 # v- - view prev
 # l - login
 # c - comment on current rant
+# n - notif feed
+#--
 # c! - comment post
 # + - upvote
 # - - downvote
+# vi - view id (prompt)
+
 
 #only check first char, others are checked in execute
 
@@ -47,6 +51,9 @@ def isValidCommand(command):
 		return False
 
 def execute(command, vid):
+	if command[0] == "n":
+		c.getNotifs()
+		c.dispNotifs()
 	if command == "pc":
 		resp = input("Are you sure? (Y/N):")
 		if resp == "y" or resp == "Y":
