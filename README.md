@@ -2,6 +2,7 @@
 An ed-like client for devRant written in python
 
 ## Installation
+(Don't forget to install the stuff in requirements.txt first)
 Just grab the build for your system on the [releases](https://github.com/Ewpratten/dr/releases) page then run:
 ```
 chmod +755 dr
