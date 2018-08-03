@@ -1,1 +1,0 @@
-import devRantSimple as dRS

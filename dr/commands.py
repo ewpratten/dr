@@ -1,4 +1,3 @@
-import drif
 import devRantSimple as dRS
 import getpass
 import globals as glbl
@@ -7,6 +6,7 @@ import globals as glbl
 
 def printrant(rant):
 	# if "joke/meme" not in rant["tags"]:
+	# print(rant)
 	print(rant["username"])
 	print("---")
 	print(rant["text"])
@@ -36,12 +36,18 @@ def login():
 	if creds != dRS.InvalidResponse:
 		print("Logged In")
 		glbl.creds = creds
+		glbl.isloggedein = True
 
 def post():
 	uid = glbl.creds["user_id"]
 	token = glbl.creds["token_id"]
 	key = glbl.creds["token_key"]
-	response = dRS.postRant(glbl.rant_text, glbl.rant_tags, uid, token, key)
+	if glbl.isloggedein:
+		response = dRS.postRant(glbl.rant_text, glbl.rant_tags, uid, token, key)
+		if response["success"]:
+			print("Done")
+	else:
+		print("Not Logged In")
 	
 def newRant():
 	print("Rant Body:")
