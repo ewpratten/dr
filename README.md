@@ -8,21 +8,11 @@ cd build/
 sh ./build-linux.sh #or build-cros.sh if you are using a chromebook
 ```
 For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
-
 ## How to run
 Just type `dr` in your terminal and you will be sent straight in to the dr prompt.
 
 ## How to log in
 Once in the dr prompt, use the command `l`. You will be asked for a username and password. Just follow the prompts.
-
-## Auto Login
-For those of us that hate having to log in every time, and don't mind sacrificing a bit of security, you can make a file in your home directory (`~/`) called `.dr.conf` (so the path would look like `~/.dr.conf`
-
-In this file, put your username and password (in that order). For example:
-```
-SomeCoolUser
-SomeAwesomePassword
-```
 
 ## How to make a post
 First, you should be logged in (see above)
@@ -54,3 +44,8 @@ Feed list
  - r = recent
 
 So. to view the top rants, use the command `st` and to view the algo, use `sa`
+
+## Check Your Notifs
+To see your notifications, use the command `n`. They will all show up on your screen. In each notif, there is a rantCode. This will be important for later.
+
+(In a future release, you will be able to clear your notifs with the command `n!`)
