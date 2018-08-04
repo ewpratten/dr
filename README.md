@@ -56,3 +56,6 @@ To view a specific rant in dr, you must know it's rantCode. These codes are disp
 A rantCode is a stripped down hexadecimal representation of the rant it refers to. It was created because the normal devRant rant ids are getting too long to remember. The current method of creating rantCodes is quite flawed and will soon be   replaced.
 
 To view a rant from its rantCode, use the command `vi`. You will then be prompted for a rantCode. After entering the code, the rant you wanted to see will be shown.
+
+## Commenting on a Rant
+To comment on a rant, you must first view it. The rant that the comment will be posted on is the most recent rant that you have looked at. Make sure to use the `vi` command before replying to a notif.
