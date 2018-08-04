@@ -5,39 +5,37 @@ import classes as classes
 
 # commands
 
-def genRantCode(rid):
-	return str('{0:x}'.format(int(rid)))
-
-def genRantId(rcode):
-	return int(rcode, 16)
 
 def printrant(rant):
-	# if "joke/meme" not in rant["tags"]:
-	# print(rant)
-	print("@" + rant["username"])
-	print(rant["text"])
-	print(rant["tags"])
-	glbl.currentid = rant["id"]
+	if bool(rant.user.dpp):
+		dpp = " ++"
+	else:
+		dpp = ""
+		
+	print("@" + rant.user.username + dpp + " | Score:" + str(rant.score))
+	print(rant.body)
+	print("------")
+	print(rant.getTags())
+	glbl.currentid = rant.rantid
 
 def command_view(command, viewid, sort):
+	rant = classes.Rant(dRS.getRant(sort, viewid)["id"])
 	if len(command) == 1:
-		rant = dRS.getRant(sort, viewid)
 		printrant(rant)
-		return viewid
 	elif command[1] == "+":
 		viewid += 1
-		rant = dRS.getRant(sort, viewid)
 		printrant(rant)
-		return viewid
 	else:
 		viewid -= 1
-		rant = dRS.getRant(sort, viewid)
 		printrant(rant)
-		return viewid
+	
+	glbl.currentRant = rant
+	return viewid
 
 def viewId(rid):
-	rant = dRS.getRantFromId(genRantId(rid))
+	rant = classes.Rant(dRS.genRantId(rid))
 	printrant(rant)
+	glbl.currentRant = rant
 
 def login():
 	username = input("Username?\n>")
@@ -100,7 +98,7 @@ def postComment(rantid):
 		print("Not Logged In")
 
 def getNotifs():
-	print("Fetching Notifs...")
+	print("Fetching Notifs. Please Wait...")
 	if glbl.isloggedin:
 		uid = glbl.creds["user_id"]
 		token = glbl.creds["token_id"]
@@ -113,6 +111,13 @@ def getNotifs():
 				glbl.notifs.append(classes.Notif(items[i]))
 			i+=1
 
+def clearNotifs():
+	if glbl.isloggedin:
+		uid = glbl.creds["user_id"]
+		token = glbl.creds["token_id"]
+		key = glbl.creds["token_key"]
+		response = dRS.clearNotifs(uid, token, key)
+
 def dispNotifs():
 	uid = glbl.creds["user_id"]
 	token = glbl.creds["token_id"]
@@ -124,18 +129,18 @@ def dispNotifs():
 			if notif.getType() == dRS.NotifType.sub:
 				print("------------")
 				print("@" + notif.getUsername() + ": Posted a new rant")
-				print("rantCode:" + str(genRantCode(notif.getId())))
+				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.mention:
 				print("------------")
 				print("@" + notif.getUsername() + ": Mentioned you in a comment")
 				commentdata = dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
-				comment = classes.Comment(commentdata)
+				comment = classes.Comment(commentdata["comment"])
 				print(comment.body)
-				print("rantCode:" + str(genRantCode(notif.getId())))
+				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.content:
 				print("------------")
 				print("@" + notif.getUsername() + ": Commented on your rant")
-				print("rantCode:" + str(genRantCode(notif.getId())))
+				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.vote:
 				print("------------")
 				print("@" + notif.getUsername() + ": Upvoted one of your rants")
@@ -169,3 +174,7 @@ def downVote(rantid):
 				print("Done")
 		else:
 			print("Not Logged In")
+
+def viewComments():
+	glbl.currentRant.loadComments()
+	glbl.currentRant.printComments()

@@ -48,7 +48,7 @@ So. to view the top rants, use the command `st` and to view the algo, use `sa`
 ## Check Your Notifs
 To see your notifications, use the command `n`. They will all show up on your screen. In each notif, there is a rantCode. This will be important for later.
 
-(In a future release, you will be able to clear your notifs with the command `n!`)
+You can also clear your notifs with the command `n!`
 
 ## Viewing a Rant From It's rantCode
 To view a specific rant in dr, you must know it's rantCode. These codes are displayed in your notifications feed and will soon be displayed on all rants.
@@ -58,7 +58,7 @@ A rantCode is a stripped down hexadecimal representation of the rant it refers t
 To view a rant from its rantCode, use the command `vi`. You will then be prompted for a rantCode. After entering the code, the rant you wanted to see will be shown.
 
 ## Commenting on a Rant
-To comment on a rant, you must first view it. The comment will be posted on the most recent rant that you have looked at. 
+To comment on a rant, you must first view it. The comment will be posted on the most recent rant that you have looked at.
 
 Make sure to use the `vi` command before replying to a notif. (See above)
 
@@ -70,3 +70,6 @@ To post the comment you just wrote, use the `pc` (post comment) command. You wil
 
 ## Voting
 Voting has been made as easy as possible. To upvote, use the  `+` command and to downvote, use the `-` command.
+
+## View Comments
+To view all comments on the current rant, use the `vc` command. This will take a while due to the data parsing from the api. Be patient.

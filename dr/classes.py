@@ -25,11 +25,11 @@ class User(object):
 class Comment(object):
 	
 	def __init__(self, commentdata):
-		self.body = commentdata["comment"]["body"]
-		self.commentid = commentdata["comment"]["id"]
-		self.rantid = commentdata["comment"]["rant_id"]
-		self.score = commentdata["comment"]["score"]
-		self.username = commentdata["comment"]["user_username"]
+		self.body = commentdata["body"]
+		self.commentid = commentdata["id"]
+		self.rantid = commentdata["rant_id"]
+		self.score = commentdata["score"]
+		self.user = User(commentdata["user_username"])
 
 class Notif(object):
 	
@@ -73,9 +73,43 @@ class Rant(object):
 	
 	def __init__(self, rantid):
 		self.rantid = rantid
+		self.rantCode = dRS.genRantCode(rantid)
+		rant = dRS.getRantFromId(self.rantid)
+		self.body = rant["text"]
+		self.score = rant["score"]
+		self.user = rant["username"]
+		self.user = User(self.user)
+		self.tags = rant["tags"]
+		self.comments = rant["comments"]
 	
-	def getContents(self):
-		print("hi")
-
-# deb
-u1 = User("ewpratten")
+	def loadComments(self):
+		print("Fetching Comments. Please Wait...", end="")
+		comments = self.comments
+		# print(comments)
+		self.comments = []
+		i = 0
+		while i < len(comments):
+			self.comments.append(Comment(comments[i]))
+			i+=1
+		print("")
+	
+	def printComments(self):
+		i = 0
+		while i < len(self.comments):
+			print("-------")
+			if bool(self.comments[i].user.dpp):
+				dpp = " ++"
+			else:
+				dpp = ""
+				
+			print("@" + self.comments[i].user.username + dpp + " | Score:" + str(self.comments[i].score))
+			print(self.comments[i].body)
+			i+=1
+	
+	def getTags(self):
+		i = 0
+		ret = ""
+		while i < len(self.tags):
+			ret += self.tags[i] + ", "
+			i+=1
+		return ret

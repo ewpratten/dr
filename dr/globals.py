@@ -11,3 +11,4 @@ rant_comment = ""
 notifs = []
 
 currentid = 00
+currentRant = ""

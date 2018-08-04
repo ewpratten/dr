@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir src
-cp ../dr/* ./src/
+cp  -r ../dr/* ./src/
 mv ./src/dr.py ./src/__main__.py
 cd src
 zip dr *.py
