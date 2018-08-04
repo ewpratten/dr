@@ -58,4 +58,11 @@ A rantCode is a stripped down hexadecimal representation of the rant it refers t
 To view a rant from its rantCode, use the command `vi`. You will then be prompted for a rantCode. After entering the code, the rant you wanted to see will be shown.
 
 ## Commenting on a Rant
-To comment on a rant, you must first view it. The rant that the comment will be posted on is the most recent rant that you have looked at. Make sure to use the `vi` command before replying to a notif.
+To comment on a rant, you must first view it. The comment will be posted on the most recent rant that you have looked at. 
+
+Make sure to use the `vi` command before replying to a notif. (See above)
+
+To comment, use the `c` command. The prompt will change to the rant prompt. Remember, once you move to a new line, you can not edit the previous lines without re-running the command. When you are done typing your comment, move to a new line and type `.`
+
+## Posting Your Comment
+To post the comment you just wrote, use the `pc` (post comment) command. You will then be asked to confirm.
