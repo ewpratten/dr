@@ -5,6 +5,12 @@ import classes as classes
 
 # commands
 
+def genRantCode(rid):
+	return str('{0:x}'.format(int(rid)))
+
+def genRantId(rcode):
+	return int(rcode, 16)
+
 def printrant(rant):
 	# if "joke/meme" not in rant["tags"]:
 	# print(rant)
@@ -30,9 +36,8 @@ def command_view(command, viewid, sort):
 		return viewid
 
 def viewId(rid):
-	rant = dRS.getRantFromId(rid)
+	rant = dRS.getRantFromId(genRantId(rid))
 	printrant(rant)
-	glbl.currentid = rid
 
 def login():
 	username = input("Username?\n>")
@@ -119,21 +124,23 @@ def dispNotifs():
 			if notif.getType() == dRS.NotifType.sub:
 				print("------------")
 				print("@" + notif.getUsername() + ": Posted a new rant")
-				print("Rant Id:" + str(notif.getId()))
+				print("rantCode:" + str(genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.mention:
 				print("------------")
 				print("@" + notif.getUsername() + ": Mentioned you in a comment")
-				# dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
-				print("(Unable to fetch preview)")
-				print("Rant Id:" + str(notif.getId()))
+				commentdata = dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
+				comment = classes.Comment(commentdata)
+				print(comment.body)
+				print("rantCode:" + str(genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.content:
 				print("------------")
 				print("@" + notif.getUsername() + ": Commented on your rant")
-				print("Rant Id:" + str(notif.getId()))
+				print("rantCode:" + str(genRantCode(notif.getId())))
 			if notif.getType() == dRS.NotifType.vote:
 				print("------------")
 				print("@" + notif.getUsername() + ": Upvoted one of your rants")
 		i +=1
+	glbl.notifs = []
 
 def upVote(rantid):
 	if rantid == 00:

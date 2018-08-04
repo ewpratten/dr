@@ -54,8 +54,7 @@ def isValidCommand(command):
 def execute(command, vid):
 	if command == "vi":
 		rid = input("Rant Id:\n>")
-		if type(rid) == type(1):
-			c.viewId(rid)
+		c.viewId(rid)
 
 	if command == "+":
 		c.upVote(glbl.currentid)
@@ -84,7 +83,7 @@ def execute(command, vid):
 			c.post()
 	if command[0] == "q":
 		exit()
-	if command[0] == "v":
+	if command[0] == "v" and command != "vi":
 		glbl.ViewId = c.command_view(command, vid, glbl.CurrentSection)
 	if command[0] == "s":
 		if len(command) == 2:

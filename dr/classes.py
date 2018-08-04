@@ -22,9 +22,14 @@ class User(object):
 	def getUsername(self):
 		return self.username
 
-# class Comment(object):
+class Comment(object):
 	
-# 	def __init__(self, )
+	def __init__(self, commentdata):
+		self.body = commentdata["comment"]["body"]
+		self.commentid = commentdata["comment"]["id"]
+		self.rantid = commentdata["comment"]["rant_id"]
+		self.score = commentdata["comment"]["score"]
+		self.username = commentdata["comment"]["user_username"]
 
 class Notif(object):
 	
