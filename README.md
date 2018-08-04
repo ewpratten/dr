@@ -2,17 +2,17 @@
 An ed-like client for devRant written in python
 
 ## Installation
-(Don't forget to install the stuff in requirements.txt first)
-Just grab the build for your system on the [releases](https://github.com/Ewpratten/dr/releases) page then run:
+Clone the repo, cd into it, then run:
 ```
-chmod +755 dr
-mv dr /use/local/bin/
+cd build/
+sh ./build-linux.sh #or build-cros.sh if you are using a chromebook
 ```
+For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
 ## How to run
 Just type `dr` in your terminal and you will be sent straight in to the dr prompt.
 
 ## How to log in
-Once in the dr prompt, use the command `l`. You will be asked for a username and password. Just follow the prompts. 
+Once in the dr prompt, use the command `l`. You will be asked for a username and password. Just follow the prompts.
 
 ## How to make a post
 First, you should be logged in (see above)
