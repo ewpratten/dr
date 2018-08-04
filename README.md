@@ -73,3 +73,6 @@ Voting has been made as easy as possible. To upvote, use the  `+` command and to
 
 ## View Comments
 To view all comments on the current rant, use the `vc` command. This will take a while due to the data parsing from the api. Be patient.
+
+## Known Bugs
+ - posting a comment, then viewing all comments will crash.

@@ -74,8 +74,8 @@ def newTags():
 
 	
 def newComment(viewid, sort):
-	username = dRS.getRant(sort, viewid)
-	username = username["username"]
+	username = glbl.currentRant
+	username = username.user.username
 	print("Comment On @" + username + "'s Rant:")
 	rtype = True
 	while rtype:
