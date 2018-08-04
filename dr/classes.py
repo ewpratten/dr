@@ -38,7 +38,7 @@ class Notif(object):
 			self.content = dRS.NotifType.sub
 		if self.content == "comment_content":
 			self.content = dRS.NotifType.content
-		if self.content == "comment_vote":
+		if self.content == "content_vote":
 			self.content = dRS.NotifType.vote
 		if self.content == "comment_mention":
 			self.content = dRS.NotifType.mention

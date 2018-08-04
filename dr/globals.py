@@ -9,3 +9,5 @@ rant_tags = ""
 rant_comment = ""
 
 notifs = []
+
+currentid = 00

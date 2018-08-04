@@ -9,10 +9,9 @@ def printrant(rant):
 	# if "joke/meme" not in rant["tags"]:
 	# print(rant)
 	print("@" + rant["username"])
-	print("---")
 	print(rant["text"])
-	print("---")
 	print(rant["tags"])
+	glbl.currentid = rant["id"]
 
 def command_view(command, viewid, sort):
 	if len(command) == 1:
@@ -29,6 +28,11 @@ def command_view(command, viewid, sort):
 		rant = dRS.getRant(sort, viewid)
 		printrant(rant)
 		return viewid
+
+def viewId(rid):
+	rant = dRS.getRantFromId(rid)
+	printrant(rant)
+	glbl.currentid = rid
 
 def login():
 	username = input("Username?\n>")
@@ -78,21 +82,17 @@ def newComment(viewid, sort):
 		else:
 			glbl.rant_comment += inp + "\n"
 
-def postComment(viewid, sort):
-	print("Commenting not allowed")
-	# if glbl.isloggedin:
-	# 	uid = glbl.creds["user_id"]
-	# 	token = glbl.creds["token_id"]
-	# 	key = glbl.creds["token_key"]
-	# 	rid = dRS.getRant(sort, viewid)
-	# 	rid = rid["id"]
-	# 	response = dRS.comment(rid, glbl.rant_comment, uid, token, key)
-	# 	print(response)
-	# 	if response["success"]:
-	# 		glbl.rant_comment = ""
-	# 		print("Done")
-	# else:
-	# 	print("Not Logged In")
+def postComment(rantid):
+	if glbl.isloggedin:
+		uid = glbl.creds["user_id"]
+		token = glbl.creds["token_id"]
+		key = glbl.creds["token_key"]
+		response = dRS.comment(rantid, glbl.rant_comment, uid, token, key)
+		if response["success"]:
+			glbl.rant_comment = ""
+			print("Done")
+	else:
+		print("Not Logged In")
 
 def getNotifs():
 	print("Fetching Notifs...")
@@ -109,6 +109,9 @@ def getNotifs():
 			i+=1
 
 def dispNotifs():
+	uid = glbl.creds["user_id"]
+	token = glbl.creds["token_id"]
+	key = glbl.creds["token_key"]
 	i = 0
 	while i < len(glbl.notifs):
 		notif = glbl.notifs[i]
@@ -120,7 +123,8 @@ def dispNotifs():
 			if notif.getType() == dRS.NotifType.mention:
 				print("------------")
 				print("@" + notif.getUsername() + ": Mentioned you in a comment")
-				print("(Unable to fetch preview")
+				# dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
+				print("(Unable to fetch preview)")
 				print("Rant Id:" + str(notif.getId()))
 			if notif.getType() == dRS.NotifType.content:
 				print("------------")
@@ -130,3 +134,31 @@ def dispNotifs():
 				print("------------")
 				print("@" + notif.getUsername() + ": Upvoted one of your rants")
 		i +=1
+
+def upVote(rantid):
+	if rantid == 00:
+		print("Unable To Place Vote")
+	else:
+		if glbl.isloggedin:
+			uid = glbl.creds["user_id"]
+			token = glbl.creds["token_id"]
+			key = glbl.creds["token_key"]
+			response = dRS.vote(rantid, uid, token, key, 1)
+			if response["success"]:
+				print("Done")
+		else:
+			print("Not Logged In")
+
+def downVote(rantid):
+	if rantid == 00:
+		print("Unable To Place Vote")
+	else:
+		if glbl.isloggedin:
+			uid = glbl.creds["user_id"]
+			token = glbl.creds["token_id"]
+			key = glbl.creds["token_key"]
+			response = dRS.vote(rantid, uid, token, key, -1)
+			if response["success"]:
+				print("Done")
+		else:
+			print("Not Logged In")

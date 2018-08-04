@@ -27,11 +27,12 @@ CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-", "n"]
 # v- - view prev
 # l - login
 # c - comment on current rant
+# pc - post comment
 # n - notif feed
-#--
-# c! - comment post
 # + - upvote
-# - - downvote
+# - - downvote glbl.currentid
+
+#--
 # vi - view id (prompt)
 
 
@@ -51,13 +52,22 @@ def isValidCommand(command):
 		return False
 
 def execute(command, vid):
+	if command == "vi":
+		rid = input("Rant Id:\n>")
+		if type(rid) == type(1):
+			c.viewId(rid)
+
+	if command == "+":
+		c.upVote(glbl.currentid)
+	if command == "-":
+		c.downVote(glbl.currentid)
 	if command[0] == "n":
 		c.getNotifs()
 		c.dispNotifs()
 	if command == "pc":
 		resp = input("Are you sure? (Y/N):")
 		if resp == "y" or resp == "Y":
-			c.postComment(vid, glbl.CurrentSection)
+			c.postComment(glbl.currentid)
 	if command == "c":
 		c.newComment(vid, glbl.CurrentSection)
 	if command[0] == "l":
