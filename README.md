@@ -49,3 +49,10 @@ So. to view the top rants, use the command `st` and to view the algo, use `sa`
 To see your notifications, use the command `n`. They will all show up on your screen. In each notif, there is a rantCode. This will be important for later.
 
 (In a future release, you will be able to clear your notifs with the command `n!`)
+
+## Viewing a Rant From It's rantCode
+To view a specific rant in dr, you must know it's rantCode. These codes are displayed in your notifications feed and will soon be displayed on all rants.
+
+A rantCode is a stripped down hexadecimal representation of the rant it refers to. It was created because the normal devRant rant ids are getting too long to remember. The current method of creating rantCodes is quite flawed and will soon be   replaced.
+
+To view a rant from its rantCode, use the command `vi`. You will then be prompted for a rantCode. After entering the code, the rant you wanted to see will be shown.
