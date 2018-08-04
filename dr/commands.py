@@ -54,7 +54,7 @@ def post():
 		response = dRS.postRant(glbl.rant_text, glbl.rant_tags, uid, token, key)
 		if response["success"]:
 			glbl.rant_text = ""
-			print("Done")
+			print("Done!")
 	else:
 		print("Not Logged In")
 	
