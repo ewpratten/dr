@@ -62,7 +62,11 @@ To comment on a rant, you must first view it. The comment will be posted on the 
 
 Make sure to use the `vi` command before replying to a notif. (See above)
 
+### Create the Comment
 To comment, use the `c` command. The prompt will change to the rant prompt. Remember, once you move to a new line, you can not edit the previous lines without re-running the command. When you are done typing your comment, move to a new line and type `.`
 
-## Posting Your Comment
+### Posting Your Comment
 To post the comment you just wrote, use the `pc` (post comment) command. You will then be asked to confirm.
+
+## Voting
+Voting has been made as easy as possible. To upvote, use the  `+` command and to downvote, use the `-` command.
