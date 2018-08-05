@@ -21,6 +21,7 @@ In dr, post creation is done in these steps:
  - Create a new rant
  - Add tags to the rant
  - Post the rant
+
 Here is how to do that:
 
 ### Create a new rant
