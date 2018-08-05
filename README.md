@@ -21,7 +21,6 @@ In dr, post creation is done in these steps:
  - Create a new rant
  - Add tags to the rant
  - Post the rant
-
 Here is how to do that:
 
 ### Create a new rant
@@ -77,3 +76,6 @@ To view all comments on the current rant, use the `vc` command. This will take a
 
 ## Known Bugs
  - posting a comment, then viewing all comments will crash.
+ - unplugging your desktop computer while running dr will cause dr to stop running and your computer will loose power
+ - hitting your computer with a hammer will break it
+ - lighting your computer on fire may have serious consequences
