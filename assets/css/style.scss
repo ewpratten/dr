@@ -8,3 +8,14 @@
 body{
   font-family: "Comfortaa", sans-serif;
 }
+
+.page-header {
+  background: 
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(106, 174, 210, 0.85), 
+      rgba(106, 174, 210, 0.85)
+    ),
+    /* bottom, image */
+    url(https://devrant-stats.github.io/images/header-background.png);
+}
