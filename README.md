@@ -5,11 +5,20 @@ An ed-like client for devRant written in python
 Clone the repo, cd into it, then run:
 ```
 cd build/
-sh ./build-linux.sh 
+sh ./build-linux.sh
 #or build-cros.sh if you are using a chromebook
 #or build-macos.sh if you are using osx
 ```
+
 For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
+
+## Updating
+To update on most systems, run:
+```
+dr-update
+```
+In your terminal
+
 ## How to run
 Just type `dr` in your terminal and you will be sent straight in to the dr prompt.
 
@@ -74,10 +83,13 @@ To post the comment you just wrote, use the `pc` (post comment) command. You wil
 Voting has been made as easy as possible. To upvote, use the  `+` command and to downvote, use the `-` command.
 
 ## View Comments
-To view all comments on the current rant, use the `vc` command. This will take a while due to the data parsing from the api. Be patient.
+To view all comments on the current rant, use the `vc` command.
+
+If you have just loaded a new rant, this command might tell you to wait. This is because a large amount of data parseing must happen in order to display the comment list. After waiting a few seconds, run the command again.
 
 ## Known Bugs
  - posting a comment, then viewing all comments will crash.
+ - trying to view a rant with an invalid rantCode will crash
  - unplugging your desktop computer while running dr will cause dr to stop running and your computer will loose power
  - hitting your computer with a hammer will break it
  - lighting your computer on fire may have serious consequences

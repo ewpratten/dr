@@ -8,6 +8,7 @@ import globals as glbl				# All global vars are here
 # Imports used for auto-login
 import os							# os interfaces
 from pathlib import Path			# used for finding home path
+import specall as specall			# Automated api calling
 
 # Attempt to auto-login
 
@@ -32,6 +33,13 @@ if os.path.exists(home +'/.dr.conf'):
 			# Force close with code 1
 			print("Invalid login Info in config file")
 			exit(1)
+
+# Start up the threads
+glbl.check_notifs = specall.getNotifs()
+glbl.check_comments = specall.getComments()
+
+glbl.check_notifs.start()
+glbl.check_comments.start()
 
 # Command prompt / main loop
 #set default feed

@@ -2,7 +2,7 @@ import commands as c		# All program commands
 import globals as glbl		# Global vars
 import devRantSimple as dRS	# Main backend
 
-validCommands = ["q", "r", "t", "p!", "p", "st", "sr", "sa", "v", "v+", "v-", "l", "c", "pc", "n", "+", "-", "vi", "vc", "n!"]
+validCommands = ["q", "r", "t", "p!", "p", "st", "sr", "sa", "v", "v+", "v-", "l", "c", "pc", "n", "+", "-", "vi", "vc", "vc!", "n!"]
 
 # COMMAND LIST
 # q - quit
@@ -22,6 +22,7 @@ validCommands = ["q", "r", "t", "p!", "p", "st", "sr", "sa", "v", "v+", "v-", "l
 # - - downvote glbl.currentid
 # vi - view id (prompt)
 # vc - view all comments on current rant
+# vc! - force load comments (slower)
 # n! - clear notifs
 
 def isValidCommand(command):
@@ -32,7 +33,7 @@ def isValidCommand(command):
 
 def execute(command):
 	if command == "q":
-		exit(0)
+		c.quit()
 	if command == "r":
 		c.newRant()
 	if command == "t":
@@ -64,7 +65,7 @@ def execute(command):
 	if command == "pc":
 		c.postComment()
 	if command == "n":
-		c.viewNotifs()
+		c.viewMtNotifs()
 	if command == "+":
 		c.upVote()
 	if command == "-":
@@ -72,6 +73,8 @@ def execute(command):
 	if command == "vi":
 		c.viewRantById()
 	if command == "vc":
+		c.viewMtComments()
+	if command == "vc!":
 		c.viewComments()
 	if command == "n!":
 		c.clearNotifs()

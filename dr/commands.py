@@ -2,7 +2,17 @@ import devRantSimple as dRS	# Main backend
 import getpass				# Password input
 import globals as glbl		# Global vars
 import classRant as classes	# Class based interface to dRS
+import specall as specall
 
+def reloadComments():
+	glbl.check_comments.stop()
+	glbl.check_comments = specall.getComments()
+	glbl.check_comments.start()
+
+def quit():
+	glbl.check_notifs.stop()
+	glbl.check_comments.stop()
+	exit(0)
 
 def printrant(rant):
 	if bool(rant.user.isdevRantPlusPlus):
@@ -64,9 +74,11 @@ def viewFromFeed(command):
 	
 	# Turn rant data from api into rant class
 	rant = classes.Rant(dRS.getRant(glbl.currentFeed, glbl.feedItemId)["id"])
+	glbl.currentViewedRant = rant
+	reloadComments()
 	#print to screen
 	printrant(rant)
-	glbl.currentViewedRant = rant
+
 
 def login():
 	username = input("Username?\n>")
@@ -128,6 +140,31 @@ def viewNotifs():
 					print("@" + notif.username + ": Upvoted one of your rants")
 			i+=1
 
+def viewMtNotifs():
+	if glbl.notifs == []:
+		print("Your Notif Feed Is Still Loading...")
+	else:
+		for notif in glbl.notifs:
+			# notif = glbl.notifs[i]
+			if notif.contentType == dRS.NotifType.sub:
+				print("------------")
+				print("@" + notif.username + ": Posted a new rant")
+				print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+			if notif.contentType == dRS.NotifType.mention:
+				print("------------")
+				print("@" + notif.username + ": Mentioned you in a comment")
+				commentdata = dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
+				comment = classes.Comment(commentdata["comment"])
+				print(comment.body)
+				print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+			if notif.contentType == dRS.NotifType.content:
+				print("------------")
+				print("@" + notif.username + ": Commented on your rant")
+				print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+			if notif.contentType == dRS.NotifType.vote:
+				print("------------")
+				print("@" + notif.username + ": Upvoted one of your rants")
+
 def upVote():
 	rantid = glbl.currentViewedRant.rantid
 	if rantid == 00:
@@ -162,11 +199,19 @@ def viewRantById():
 	print("rantCode:")
 	rantCode = input(">")
 	rant = classes.Rant(dRS.genRantId(rantCode))
-	printrant(rant)
 	glbl.currentViewedRant = rant
+	reloadComments()
+	printrant(rant)
+	
 
 def viewComments():
 	glbl.currentViewedRant.printAndLoadComments()
+
+def viewMtComments():
+	if len(glbl.currentViewedRant.comments) == glbl.commentLen:
+		glbl.currentViewedRant.printComments()
+	else:
+		print("Comments Still Loading. Try Again In A Few Seconds...")
 
 def clearNotifs():
 	if glbl.isLoggedIn:
