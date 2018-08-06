@@ -13,3 +13,6 @@ python3 -m pip install --no-cache-dir --upgrade -r ../requirements.txt
 chmod +755 ./dr
 mv ./dr /usr/local/bin/
 rm -rf ./dr ./src ./dr.zip
+
+chmod 755 ../updater/dr-update
+mv ../updater/dr-update /usr/local/bin/
