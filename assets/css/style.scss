@@ -9,8 +9,16 @@ body{
   font-family: "Comfortaa", sans-serif;
 }
 
+.main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
+  color:#2F2F32;
+}
+
+.site-footer-credits {
+  display:none;
+}
+
 .page-header {
     background-size: cover;
     background-repeat: no-repeat;
-    background: linear-gradient(rgba(106, 152, 210, 0.85), rgba(106, 210, 172, 0.85)),url(https://devrant-stats.github.io/images/header-background.png);
+    background-image: url(https://www.devrant.io/static/devrant/img/landing/landing-banner1.png);
 }
