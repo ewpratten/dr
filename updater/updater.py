@@ -1,6 +1,7 @@
 import platform
 import os
-import subprocess
+# import subprocess
+from subprocess import call
 
 osn = ""
 
@@ -14,5 +15,9 @@ else:
 	print("Unsupported platform")
 	exit(1)
 
-os.chmod("../build/build-" + osn + ".sh", 0o755)
-subprocess.call("../build/build-" + osn + ".sh", shell=True)
+with open("../build/build-" + osn + ".sh", 'rb') as file:
+    script = file.read()
+rc = call(script, shell=True)
+
+# os.chmod("../build/build-" + osn + ".sh", 0o755)
+# subprocess.call("../build/build-" + osn + ".sh", shell=True)
