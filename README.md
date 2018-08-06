@@ -5,7 +5,9 @@ An ed-like client for devRant written in python
 Clone the repo, cd into it, then run:
 ```
 cd build/
-sh ./build-linux.sh #or build-cros.sh if you are using a chromebook
+sh ./build-linux.sh 
+#or build-cros.sh if you are using a chromebook
+#or build-macos.sh if you are using osx
 ```
 For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
 ## How to run
