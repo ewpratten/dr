@@ -1,0 +1,4 @@
+#!/bin/bash
+git clone https://github.com/ewpratten/dr.git ~/.drup
+python3 ~/.drup/updater/updater.py
+rm -rf ~/.drup
