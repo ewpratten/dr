@@ -1,10 +1,10 @@
-import commands as c
-import globals as glbl
-import devRantSimple as dRS
+import commands as c		# All program commands
+import globals as glbl		# Global vars
+import devRantSimple as dRS	# Main backend
 
-CommandList = ["q", "r", "v", "p", "t", "s", "l", "c", "+", "-", "n"]
-RantFeeds = [dRS.RantType.algo, dRS.RantType.top, dRS.RantType.recent]
+validCommands = ["q", "r", "t", "p!", "p", "st", "sr", "sa", "v", "v+", "v-", "l", "c", "pc", "n", "+", "-", "vi", "vc", "n!"]
 
+# COMMAND LIST
 # q - quit
 # r - new rant
 # t - add tags
@@ -26,57 +26,52 @@ RantFeeds = [dRS.RantType.algo, dRS.RantType.top, dRS.RantType.recent]
 
 def isValidCommand(command):
 	if len(command) > 0:
-		return command[0] in CommandList	#is the first char a valid command?
+		return command in validCommands
 	else:
 		return False
 
-def execute(command, vid):
-	if command == "vc":
-		c.viewComments()
-	if command == "vi":
-		rid = input("Rant Id:\n>")
-		c.viewId(rid)
-
-	if command == "+":
-		c.upVote(glbl.currentid)
-	if command == "-":
-		c.downVote(glbl.currentid)
-	if command[0] == "n":
-		if command == "n!":
-			c.clearNotifs()
-		else:
-			c.getNotifs()
-			c.dispNotifs()
-	if command == "pc":
-		resp = input("Are you sure? (Y/N):")
-		if resp == "y" or resp == "Y":
-			c.postComment(glbl.currentid)
-	if command == "c":
-		c.newComment(vid, glbl.CurrentSection)
-	if command[0] == "l":
-		c.login()
-	if command[0] == "r":
+def execute(command):
+	if command == "q":
+		exit(0)
+	if command == "r":
 		c.newRant()
-	if command[0] == "t":
-		c.newTags()
+	if command == "t":
+		c.addTags()
 	if command == "p!":
-		c.post()
+		c.postRant()
 	if command == "p":
-		resp = input("Are you sure? (Y/N):")
-		if resp == "y" or resp == "Y":
-			c.post()
-	if command[0] == "q":
-		exit()
-	if command[0] == "v" and command != "vi" and command != "vc":
-		glbl.ViewId = c.command_view(command, vid, glbl.CurrentSection)
+		response = input("Are you sure? (Y/N):")
+		if response == "y" or response == "Y":
+			c.postRant()
 	if command[0] == "s":
 		if len(command) == 2:
 			if command[1] == "a":
-				glbl.CurrentSection = dRS.RantType.algo
+				glbl.currentFeed = dRS.RantType.algo
 			if command[1] == "t":
-				glbl.CurrentSection = dRS.RantType.top
+				glbl.currentFeed = dRS.RantType.top
 			if command[1] == "r":
-				glbl.CurrentSection = dRS.RantType.recent
+				glbl.currentFeed = dRS.RantType.recent
 		else:
 			print("?")
-	
+	if command[0] == "v" and command != "vi" and command != "vc":
+		c.viewFromFeed(command)
+	if command == "l":
+		c.login()
+	if command == "c":
+		response = input("Are you sure? (Y/N):")
+		if response == "y" or response == "Y":
+			c.newComment()
+	if command == "pc":
+		c.postComment()
+	if command == "n":
+		c.viewNotifs()
+	if command == "+":
+		c.upVote()
+	if command == "-":
+		c.downVote()
+	if command == "vi":
+		c.viewRantById()
+	if command == "vc":
+		c.viewComments()
+	if command == "n!":
+		c.clearNotifs()

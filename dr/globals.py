@@ -1,14 +1,9 @@
-ViewId = 2
-CurrentSection = ""
-creds = ""
+isLoggedIn = False
+credentials = {}
 
-isloggedin = False
+currentViewedRant = ""
+feedItemId = 2
+currentFeed = ""
 
-rant_text = ""
-rant_tags = ""
-rant_comment = ""
-
-notifs = []
-
-currentid = 00
-currentRant = ""
+rantToPost = ""
+commentToPost = ""

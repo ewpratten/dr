@@ -1,41 +1,72 @@
-import devRantSimple as dRS
-import getpass
-import globals as glbl
-import classes as classes
-
-# commands
+import devRantSimple as dRS	# Main backend
+import getpass				# Password input
+import globals as glbl		# Global vars
+import classRant as classes	# Class based interface to dRS
 
 
 def printrant(rant):
-	if bool(rant.user.dpp):
+	if bool(rant.user.isdevRantPlusPlus):
 		dpp = " ++"
 	else:
 		dpp = ""
 		
-	print("@" + rant.user.username + dpp + " | Score:" + str(rant.score))
+	print("@" + rant.user.username + dpp + " | Score:" + str(rant.score) + " | ID:" + dRS.genRantCode(rant.rantid))
 	print(rant.body)
 	print("------")
 	print(rant.getTags())
 	glbl.currentid = rant.rantid
 
-def command_view(command, viewid, sort):
-	rant = classes.Rant(dRS.getRant(sort, viewid)["id"])
-	if len(command) == 1:
-		printrant(rant)
-	elif command[1] == "+":
-		viewid += 1
-		printrant(rant)
-	else:
-		viewid -= 1
-		printrant(rant)
-	
-	glbl.currentRant = rant
-	return viewid
+def rantPrompt(title):
+	print(title)
+	# Temporary text storage
+	tempText = ""
+	typing = True
+	while typing:
+		inputText = input("|")
+		if inputText == ".":
+			typing = False
+		else:
+			tempText += inputText + "\n"
+	return tempText
 
-def viewId(rid):
-	rant = classes.Rant(dRS.genRantId(rid))
+def newRant():
+	# make a new blank rant
+	glbl.rantToPost = classes.NewRant("","")
+	rantBody = rantPrompt("Rant Body:")
+	glbl.rantToPost.body = rantBody
+
+def addTags():
+	print("Add Tags (comma seperated):")
+	glbl.rantToPost.tags = input("|")
+
+def postRant():
+	if glbl.isLoggedIn:
+		# Get auth data
+		uid = glbl.credentials["user_id"]
+		token = glbl.credentials["token_id"]
+		key = glbl.credentials["token_key"]
+		response = dRS.postRant(glbl.rantToPost.body, glbl.rantToPost.tags, uid, token, key)
+		if response["success"]:
+			print("Posted!")
+		else:
+			print("Something Went Wrong")
+			print("Data From Server:")
+			print(response)
+	else:
+		print("Not Logged In")
+
+def viewFromFeed(command):
+	if len(command) == 2:
+		if command[1] == "+":
+			glbl.feedItemId += 1
+		elif command[1] == "-":
+			glbl.feedItemId -= 1
+	
+	# Turn rant data from api into rant class
+	rant = classes.Rant(dRS.getRant(glbl.currentFeed, glbl.feedItemId)["id"])
+	#print to screen
 	printrant(rant)
-	glbl.currentRant = rant
+	glbl.currentViewedRant = rant
 
 def login():
 	username = input("Username?\n>")
@@ -43,138 +74,103 @@ def login():
 	creds = dRS.login(username, password)
 	if creds != dRS.InvalidResponse:
 		print("Logged In")
-		glbl.creds = creds
-		glbl.isloggedin = True
+		glbl.credentials = creds
+		glbl.isLoggedIn = True
 
-def post():
-	if glbl.isloggedin:
-		uid = glbl.creds["user_id"]
-		token = glbl.creds["token_id"]
-		key = glbl.creds["token_key"]
-		response = dRS.postRant(glbl.rant_text, glbl.rant_tags, uid, token, key)
+def newComment():
+	glbl.commentToPost = rantPrompt("Comment Body:")
+
+def postComment():
+	if glbl.isLoggedIn:
+		# Get auth data
+		uid = glbl.credentials["user_id"]
+		token = glbl.credentials["token_id"]
+		key = glbl.credentials["token_key"]
+		response = dRS.comment(glbl.currentViewedRant.rantid, glbl.commentToPost, uid, token, key)
 		if response["success"]:
-			glbl.rant_text = ""
-			print("Done!")
-	else:
-		print("Not Logged In")
-	
-def newRant():
-	print("Rant Body:")
-	rtype = True
-	while rtype:
-		inp = input("|")
-		if inp == ".":
-			rtype = False
+			print("Posted!")
 		else:
-			glbl.rant_text += inp + "\n"
-	
-def newTags():
-	print("Add Tags (comma seperated)")
-	glbl.rant_tags = input("|")
-
-	
-def newComment(viewid, sort):
-	username = glbl.currentRant
-	username = username.user.username
-	print("Comment On @" + username + "'s Rant:")
-	rtype = True
-	while rtype:
-		inp = input("|")
-		if inp == ".":
-			rtype = False
-		else:
-			glbl.rant_comment += inp + "\n"
-
-def postComment(rantid):
-	if glbl.isloggedin:
-		uid = glbl.creds["user_id"]
-		token = glbl.creds["token_id"]
-		key = glbl.creds["token_key"]
-		response = dRS.comment(rantid, glbl.rant_comment, uid, token, key)
-		if response["success"]:
-			glbl.rant_comment = ""
-			print("Done")
+			print("Something Went Wrong")
+			print("Data From Server:")
+			print(response)
 	else:
 		print("Not Logged In")
 
-def getNotifs():
+def viewNotifs():
 	print("Fetching Notifs. Please Wait...")
-	if glbl.isloggedin:
-		uid = glbl.creds["user_id"]
-		token = glbl.creds["token_id"]
-		key = glbl.creds["token_key"]
+	if glbl.isLoggedIn:
+		uid = glbl.credentials["user_id"]
+		token = glbl.credentials["token_id"]
+		key = glbl.credentials["token_key"]
 		response = dRS.getNotifs(uid, token, key)
 		items = response["data"]["items"]
 		i = 0
 		while i < len(items):
 			if not bool(items[i]["read"]):
-				glbl.notifs.append(classes.Notif(items[i]))
+				notif = (classes.Notif(items[i]))
+				if notif.contentType == dRS.NotifType.sub:
+					print("------------")
+					print("@" + notif.username + ": Posted a new rant")
+					print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+				if notif.contentType == dRS.NotifType.mention:
+					print("------------")
+					print("@" + notif.username + ": Mentioned you in a comment")
+					commentdata = dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
+					comment = classes.Comment(commentdata["comment"])
+					print(comment.body)
+					print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+				if notif.contentType == dRS.NotifType.content:
+					print("------------")
+					print("@" + notif.username + ": Commented on your rant")
+					print("rantCode:" + str(dRS.genRantCode(notif.rantId)))
+				if notif.contentType == dRS.NotifType.vote:
+					print("------------")
+					print("@" + notif.username + ": Upvoted one of your rants")
 			i+=1
 
-def clearNotifs():
-	if glbl.isloggedin:
-		uid = glbl.creds["user_id"]
-		token = glbl.creds["token_id"]
-		key = glbl.creds["token_key"]
-		response = dRS.clearNotifs(uid, token, key)
-
-def dispNotifs():
-	uid = glbl.creds["user_id"]
-	token = glbl.creds["token_id"]
-	key = glbl.creds["token_key"]
-	i = 0
-	while i < len(glbl.notifs):
-		notif = glbl.notifs[i]
-		if not notif.isItRead():
-			if notif.getType() == dRS.NotifType.sub:
-				print("------------")
-				print("@" + notif.getUsername() + ": Posted a new rant")
-				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
-			if notif.getType() == dRS.NotifType.mention:
-				print("------------")
-				print("@" + notif.getUsername() + ": Mentioned you in a comment")
-				commentdata = dRS.getIdComment(notif.rantId, notif.commentId, uid, token, key)
-				comment = classes.Comment(commentdata["comment"])
-				print(comment.body)
-				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
-			if notif.getType() == dRS.NotifType.content:
-				print("------------")
-				print("@" + notif.getUsername() + ": Commented on your rant")
-				print("rantCode:" + str(dRS.genRantCode(notif.getId())))
-			if notif.getType() == dRS.NotifType.vote:
-				print("------------")
-				print("@" + notif.getUsername() + ": Upvoted one of your rants")
-		i +=1
-	glbl.notifs = []
-
-def upVote(rantid):
+def upVote():
+	rantid = glbl.currentViewedRant.rantid
 	if rantid == 00:
 		print("Unable To Place Vote")
 	else:
-		if glbl.isloggedin:
-			uid = glbl.creds["user_id"]
-			token = glbl.creds["token_id"]
-			key = glbl.creds["token_key"]
+		if glbl.isLoggedIn:
+			uid = glbl.credentials["user_id"]
+			token = glbl.credentials["token_id"]
+			key = glbl.credentials["token_key"]
 			response = dRS.vote(rantid, uid, token, key, 1)
 			if response["success"]:
 				print("Done")
 		else:
 			print("Not Logged In")
 
-def downVote(rantid):
+def downVote():
+	rantid = glbl.currentViewedRant.rantid
 	if rantid == 00:
 		print("Unable To Place Vote")
 	else:
-		if glbl.isloggedin:
-			uid = glbl.creds["user_id"]
-			token = glbl.creds["token_id"]
-			key = glbl.creds["token_key"]
+		if glbl.isLoggedIn:
+			uid = glbl.credentials["user_id"]
+			token = glbl.credentials["token_id"]
+			key = glbl.credentials["token_key"]
 			response = dRS.vote(rantid, uid, token, key, -1)
 			if response["success"]:
 				print("Done")
 		else:
 			print("Not Logged In")
 
+def viewRantById():
+	print("rantCode:")
+	rantCode = input(">")
+	rant = classes.Rant(dRS.genRantId(rantCode))
+	printrant(rant)
+	glbl.currentViewedRant = rant
+
 def viewComments():
-	glbl.currentRant.loadComments()
-	glbl.currentRant.printComments()
+	glbl.currentViewedRant.printAndLoadComments()
+
+def clearNotifs():
+	if glbl.isLoggedIn:
+		uid = glbl.credentials["user_id"]
+		token = glbl.credentials["token_id"]
+		key = glbl.credentials["token_key"]
+		response = dRS.clearNotifs(uid, token, key)

@@ -1,54 +1,52 @@
 # dr
-# by: Evan Pratten <ewpratten>
-import devRantSimple as dRS
-from enum import Enum
-import globals as glbl
-import os
-from pathlib import Path
-import commandeler as commandeler
+# The simple ed-like devRant client
 
-# Vars
-InvalidCommand = False	# Set to true if user typed something wrong
-running = True			# Used to controlcommand loop
-glbl.CurrentSection = dRS.RantType.algo
-glbl.ViewId = 1
+# Import required libs
+import devRantSimple as dRS			# Main backend lib / api wrapper
+import commandeler as commandeler	# The Command Handeler
+import globals as glbl				# All global vars are here
+# Imports used for auto-login
+import os							# os interfaces
+from pathlib import Path			# used for finding home path
 
-# Command Prompt
-def prompt():
-	return input(">")	# show a simple prompt
+# Attempt to auto-login
 
-## STARTUP ##
-# check if login config exsists
-# login
+# Find home path
 home = str(Path.home())
 
+# Check if config exsists
 if os.path.exists(home +'/.dr.conf'):
 	with open(home + '/.dr.conf') as f:
+		# load each line into array and remove \n
 		content = f.readlines()
 		content = [x.strip() for x in content]
 		
+		# Log in and if successfull, save credentials to global var
 		creds = dRS.login(content[0], content[1])
 		if creds != dRS.InvalidResponse:
+			# Welcome the user
 			print("Welcome @" + content[0] + "!")
-			glbl.creds = creds
-			glbl.isloggedin = True
-	
+			glbl.credentials = creds
+			glbl.isLoggedIn = True
+		else:
+			# Force close with code 1
+			print("Invalid login Info in config file")
+			exit(1)
 
-## MAIN LOOP ##
-while running:
-	# make sure you are using a valid view id
-	if glbl.ViewId < 1:
-		glbl.ViewId = 1
+# Command prompt / main loop
+#set default feed
+glbl.currentFeed = dRS.RantType.algo
+
+def prompt():
+	return input(">")	# show a simple prompt
+
+while True:
+	# make sure you are using a valid item id
+	if glbl.feedItemId <= 0:
+		glbl.feedItemId = 1
 	
 	command = prompt()
 	if commandeler.isValidCommand(command):
-		commandeler.execute(command, glbl.ViewId)
+		commandeler.execute(command)
 	else:
 		print("?")
-		InvalidCommand = True
-
-# return values
-if not running:
-	print("")
-else:
-	print("Program crashed outside main loop")
