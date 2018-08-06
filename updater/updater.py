@@ -1,16 +1,16 @@
 import platform
 import os
 
-os = ""
+osn = ""
 
 if os.path.exists("/home/chronos/user"):
-	os = "cros"
+	osn = "cros"
 elif platform.system() == 'Darwin':
-	os = "macos"
+	osn = "macos"
 elif platform.system() == 'Linux':
-	os = "linux"
+	osn = "linux"
 else:
 	print("Unsupported platform")
 	exit(1)
 
-subprocess.call("../build/build-" + os + ".sh", shell=True)
+subprocess.call("../build/build-" + osn + ".sh", shell=True)

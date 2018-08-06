@@ -1,3 +1,4 @@
 #!/bin/bash
+rm -rf /tmp/dr
 git clone https://github.com/ewpratten/dr.git /tmp/dr
-sh /tmp/dr/updater/updater.py
+python3 /tmp/dr/updater/updater.py
