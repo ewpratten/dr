@@ -7,7 +7,7 @@ sh ./build-linux.sh
 #or build-macos.sh if you are using osx
 ```
 
-For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
+For arch users, a non-waterfall version is avalible through AUR. just get the package called [dr](https://aur.archlinux.org/packages/dr) (thanks to @Electrux)
 
 ## Updating
 To update on most systems, run the following in your terminal:
