@@ -1,4 +1,12 @@
 # Installation
+Here are the various installation methods for dr:
+
+## Supported OSes
+ - ChromeOS (Fully Supported) 
+ - Linux (Fully Supported, problems with installation)
+ - OSX (Supported By Contributor, No known problems)
+
+## Building and Packing Locally
 Clone the repo, cd into it, then run:
 ```
 cd build/
@@ -7,18 +15,20 @@ sh ./build-linux.sh
 #or build-macos.sh if you are using osx
 ```
 
-For arch users, a non-waterfall version is avalible through AUR. just get the package called [dr](https://aur.archlinux.org/packages/dr) (thanks to @Electrux)
+## Installing From AUR
+For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
 
+## ChromeOS
+Todo add info
+## Mac OSX
+Todo add info
 ## Updating
 To update on most systems, run the following in your terminal:
 ```
 dr-update
 ```
 
-## Supported OSes
- - ChromeOS (Fully Supported) 
- - Linux (Fully Supported, problems with installation)
- - OSX (Supported By Contributor, No known problems)
+
 
 # How to run
 Just type `dr` in your terminal and you will be sent straight in to the dr prompt.
