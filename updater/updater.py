@@ -14,4 +14,5 @@ else:
 	print("Unsupported platform")
 	exit(1)
 
+os.chmod("../build/build-" + osn + ".sh", 0o755)
 subprocess.call("../build/build-" + osn + ".sh", shell=True)
