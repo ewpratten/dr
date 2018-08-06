@@ -9,12 +9,16 @@ sh ./build-linux.sh
 
 For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
 
-# Updating
-To update on most systems, run:
+## Updating
+To update on most systems, run the following in your terminal:
 ```
 dr-update
 ```
-In your terminal
+
+## Supported OSes
+ - ChromeOS (Fully Supported) 
+ - Linux (Fully Supported, problems with installation)
+ - OSX (Supported By Contributor, No known problems)
 
 # How to run
 Just type `dr` in your terminal and you will be sent straight in to the dr prompt.
