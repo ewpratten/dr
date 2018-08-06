@@ -1,5 +1,6 @@
 import platform
 import os
+import subprocess
 
 osn = ""
 
