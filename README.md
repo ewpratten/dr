@@ -14,9 +14,16 @@ sh ./build-linux.sh
 #or build-cros.sh if you are using a chromebook
 #or build-macos.sh if you are using osx
 ```
+Currently, the Linux script may fail. In that case try running these commands:
+```
+sh ./build-linux.sh
+sudo sh ./build-linux.sh
+sudo -H sh ./build-linux.sh
+```
+If you had to use that "quick fix", the updater will be broken for you. A fix for this is being worked on.
 
 ## Installing From AUR
-For arch users, a non-waterfall version is avalible through AUR. just get the package called `dr` (thanks to @Electrux)
+For arch users, a non-waterfall version is avalible through AUR. just get the package called [dr](https://aur.archlinux.org/packages/dr) (thanks to @Electrux)
 
 ## ChromeOS
 Todo add info
