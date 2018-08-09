@@ -1,5 +1,5 @@
-import commands as c		# All program commands
-import globals as glbl		# Global vars
+import dr.commands as c		# All program commands
+import dr.globals as glbl		# Global vars
 import devRantSimple as dRS	# Main backend
 
 validCommands = ["q", "r", "t", "p!", "p", "st", "sr", "sa", "v", "v+", "v-", "l", "c", "pc", "n", "+", "-", "vi", "vc", "vc!", "n!"]

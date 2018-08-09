@@ -2,13 +2,13 @@
 # The simple ed-like devRant client
 
 # Import required libs
-import devRantSimple as dRS			# Main backend lib / api wrapper
-import commandeler as commandeler	# The Command Handeler
-import globals as glbl				# All global vars are here
+import devRantSimple as dRS			# Main backend lib / API wrapper
+import dr.commandeler as commandeler	# The Command Handler
+import dr.globals as glbl				# All global vars are here
 # Imports used for auto-login
-import os							# os interfaces
+import os							# OS interfaces
 from pathlib import Path			# used for finding home path
-import specall as specall			# Automated api calling
+import dr.specall as specall			# Automated api calling
 
 # Attempt to auto-login
 
@@ -21,8 +21,8 @@ if os.path.exists(home +'/.dr.conf'):
 		# load each line into array and remove \n
 		content = f.readlines()
 		content = [x.strip() for x in content]
-		
-		# Log in and if successfull, save credentials to global var
+
+		# Log in and if successful, save credentials to global var
 		creds = dRS.login(content[0], content[1])
 		if creds != dRS.InvalidResponse:
 			# Welcome the user
@@ -48,13 +48,14 @@ glbl.currentFeed = dRS.RantType.algo
 def prompt():
 	return input(">")	# show a simple prompt
 
-while True:
-	# make sure you are using a valid item id
-	if glbl.feedItemId <= 0:
-		glbl.feedItemId = 1
-	
-	command = prompt()
-	if commandeler.isValidCommand(command):
-		commandeler.execute(command)
-	else:
-		print("?")
+def main():
+	while True:
+		# make sure you are using a valid item id
+		if glbl.feedItemId <= 0:
+			glbl.feedItemId = 1
+
+		command = prompt()
+		if commandeler.isValidCommand(command):
+			commandeler.execute(command)
+		else:
+			print("?")

@@ -1,8 +1,8 @@
 import devRantSimple as dRS	# Main backend
 import getpass				# Password input
-import globals as glbl		# Global vars
+import dr.globals as glbl		# Global vars
 import classRant as classes	# Class based interface to dRS
-import specall as specall
+import dr.specall as specall
 
 def reloadComments():
 	glbl.check_comments.stop()
@@ -19,7 +19,7 @@ def printrant(rant):
 		dpp = " ++"
 	else:
 		dpp = ""
-		
+
 	print("@" + rant.user.username + dpp + " | Score:" + str(rant.score) + " | ID:" + dRS.genRantCode(rant.rantid))
 	print(rant.body)
 	print("------")
@@ -71,7 +71,7 @@ def viewFromFeed(command):
 			glbl.feedItemId += 1
 		elif command[1] == "-":
 			glbl.feedItemId -= 1
-	
+
 	# Turn rant data from api into rant class
 	rant = classes.Rant(dRS.getRant(glbl.currentFeed, glbl.feedItemId)["id"])
 	glbl.currentViewedRant = rant
@@ -202,7 +202,7 @@ def viewRantById():
 	glbl.currentViewedRant = rant
 	reloadComments()
 	printrant(rant)
-	
+
 
 def viewComments():
 	glbl.currentViewedRant.printAndLoadComments()
