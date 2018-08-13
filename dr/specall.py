@@ -1,7 +1,7 @@
 # specall
 from threading import Thread
 import time
-import globals as glbl
+import dr.globals as glbl
 import classRant as classes
 import devRantSimple as dRS
 
@@ -35,7 +35,7 @@ class getNotifs(Thread):
 	def __init__(self):
 		Thread.__init__(self)
 		self.running = True
-	
+
 	def run(self):
 		while self.running:
 			getNotifsToGlbl()
@@ -52,7 +52,7 @@ class getComments(Thread):
 	def __init__(self):
 		Thread.__init__(self)
 		self.running = True
-	
+
 	def run(self):
 		getCommentsToGlbl()
 	def stop(self):

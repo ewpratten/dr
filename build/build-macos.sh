@@ -6,7 +6,7 @@ cd src
 zip dr *.py
 cd ..
 mv src/dr.zip ./
-cat chromeosSB.txt dr.zip > dr
+cat otherSB.txt dr.zip > dr
 curl -X PURGE https://pypi.org/project/classRant
 curl -X PURGE https://pypi.org/project/devRantSimple/
 python3 -m pip install --upgrade -r ../requirements.txt
